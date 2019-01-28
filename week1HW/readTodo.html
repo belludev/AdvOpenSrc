@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <div id="output">
+
+        </div>
+        <script>
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+
+                    var htmlBuilder = "<a href='/index'><-Go Back</a><br><h2>Organized Todo:</h2>";
+                    htmlBuilder += "<input type='checkbox' checked disabled> - Complete<br><input type='checkbox' disabled> - Incomplete"
+                    htmlBuilder += "<ul>";
+                    for(var i = 0; i < Object.keys(response).length; i++){
+                        htmlBuilder += `<li>${isDoneCheckBox(response[i].completed)} - ${response[i].title}</li>`;
+                    }
+                    htmlBuilder += "</ul>";
+                
+                    document.getElementById("output").innerHTML = htmlBuilder;
+                }
+            };
+            xhttp.open("GET", "/todo", true);
+            xhttp.send();
+
+
+            function isDoneCheckBox(bool){
+                if(bool){
+                    return "<input type='checkbox' checked disabled>"
+                }else{
+                    return "<input type='checkbox' disabled>";
+                }
+            }
+        </script>
+    </body>
+</html> 
