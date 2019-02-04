@@ -22,8 +22,17 @@ function helper404(){
         return out;
     });
 }
+
 app.get('/', (req, res, next) => {
-    helper404();
-    res.render('404');
+    res.send('Hello');
 })
+
+app.all('*',(req, res, next)=>{
+    if(res.status(404)){
+        helper404();
+        res.render('404');
+    }
+    
+});
+
 app.listen(3000);
